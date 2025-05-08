@@ -87,7 +87,7 @@ class TodoPage extends StatelessWidget {
                                   ),
                                 );
                             _controller.clear();
-                            selectedDate.selectedDate = null;
+                            selectedDate.selectedDate = null;  // Fix: reset date after adding todo
                           }
                         }
                       },
