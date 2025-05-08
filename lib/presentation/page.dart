@@ -12,6 +12,22 @@ class TodoPage extends StatelessWidget {
         child: Column(
           children: [
             Text('Todo List'),
+            SizedBox(height: 16.0),
+            Row(
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text('Selected Date'),
+                    SizedBox(height: 8.0),
+                    ElevatedButton(
+                      onPressed: () {},
+                      child: Text('Select Date'),
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ],
         ),
       ),
