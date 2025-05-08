@@ -1,7 +1,9 @@
+// === [Commit 01 - 07] setup UI, date picker, display date, add input field ===
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../bloc/todo_bloc.dart'; 
+
+import '../bloc/todo_bloc.dart'; // ganti sesuai struktur project kamu
 
 class TodoPage extends StatelessWidget {
   TodoPage({super.key});
@@ -34,8 +36,8 @@ class TodoPage extends StatelessWidget {
                         ).then((selectedDate) {
                           if (selectedDate != null) {
                             context.read<TodoBloc>().add(
-                              TodoSelectDate(date: selectedDate),
-                            );
+                                  TodoSelectDate(date: selectedDate),
+                                );
                           }
                         });
                       },
@@ -56,6 +58,17 @@ class TodoPage extends StatelessWidget {
                   ],
                 ),
               ],
+            ),
+            SizedBox(height: 24.0),
+            Form(
+              key: _formKey,
+              child: TextFormField(
+                controller: _controller,
+                decoration: InputDecoration(
+                  hintText: 'Enter todo',
+                  border: OutlineInputBorder(),
+                ),
+              ),
             ),
           ],
         ),
