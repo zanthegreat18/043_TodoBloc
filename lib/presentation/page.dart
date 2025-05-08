@@ -1,6 +1,6 @@
-import 'package:todo2/bloc/todo_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:todo2/bloc/todo_bloc.dart';
 
 class TodoPage extends StatelessWidget {
   const TodoPage({super.key});
@@ -16,25 +16,26 @@ class TodoPage extends StatelessWidget {
           padding: EdgeInsets.all(16.0),
           child: Column(
             children: [
-              Text('Todo List'),
+              Text('Todo List', style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+              SizedBox(height: 16),
+
               Row(
                 children: [
                   Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text('Selected Date'),
                       BlocBuilder<TodoBloc, TodoState>(
                         builder: (context, state) {
-                          if (state is TodoLoaded) {
-                            if (state.selectedDate != null) {
-                              return Text(
-                                '${state.selectedDate!.day}/${state.selectedDate!.month}/${state.selectedDate!.year}',
-                              );
-                            }
+                          if (state is TodoLoaded && state.selectedDate != null) {
+                            return Text(
+                              '${state.selectedDate!.day}/${state.selectedDate!.month}/${state.selectedDate!.year}',
+                            );
                           }
                           return Text('No date selected');
                         },
                       ),
-                      SizedBox(width: 16.0),
+                      SizedBox(height: 8.0),
                       ElevatedButton(
                         onPressed: () {
                           showDatePicker(
@@ -56,6 +57,9 @@ class TodoPage extends StatelessWidget {
                   ),
                 ],
               ),
+
+              SizedBox(height: 16.0),
+
               Form(
                 key: _key,
                 child: Row(
@@ -75,19 +79,19 @@ class TodoPage extends StatelessWidget {
                         },
                       ),
                     ),
+                    SizedBox(width: 8.0),
                     FilledButton(
                       onPressed: () {
                         if (_key.currentState!.validate()) {
-                          final selectedDate = context.read<TodoBloc>().state;
-                          if (selectedDate is TodoLoaded) {
+                          final state = context.read<TodoBloc>().state;
+                          if (state is TodoLoaded && state.selectedDate != null) {
                             context.read<TodoBloc>().add(
-                                  TodoEventAdd(
-                                    title: _controller.text,
-                                    selectedDate: selectedDate.selectedDate!,
-                                  ),
-                                );
+                              TodoEventAdd(
+                                title: _controller.text,
+                                date: state.selectedDate!,
+                              ),
+                            );
                             _controller.clear();
-                            selectedDate.selectedDate = null;  // Fix: reset date after adding todo
                           }
                         }
                       },
@@ -96,7 +100,8 @@ class TodoPage extends StatelessWidget {
                   ],
                 ),
               ),
-              SizedBox(height: 16.0),  // Added spacing after form
+
+              SizedBox(height: 16.0),
 
               Expanded(
                 child: BlocBuilder<TodoBloc, TodoState>(
@@ -138,20 +143,16 @@ class TodoPage extends StatelessWidget {
                                     ),
                                     SizedBox(height: 4.0),
                                     Text(
-                                      todo.isCompleted
-                                          ? 'Completed'
-                                          : 'Not Completed',
+                                      todo.isCompleted ? 'Completed' : 'Not Completed',
                                       style: TextStyle(
-                                        color: todo.isCompleted
-                                            ? Colors.green
-                                            : Colors.red,
+                                        color: todo.isCompleted ? Colors.green : Colors.red,
                                       ),
                                     ),
                                   ],
                                 ),
                                 Checkbox(
                                   value: todo.isCompleted,
-                                  onChanged: (value) {
+                                  onChanged: (_) {
                                     context.read<TodoBloc>().add(
                                           TodoEventComplete(index: index),
                                         );
@@ -175,5 +176,3 @@ class TodoPage extends StatelessWidget {
     );
   }
 }
-
-
