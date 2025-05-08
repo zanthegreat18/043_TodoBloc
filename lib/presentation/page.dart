@@ -96,6 +96,7 @@ class TodoPage extends StatelessWidget {
                   ],
                 ),
               ),
+              SizedBox(height: 16.0),  // Added spacing after form
             ],
           ),
         ),
