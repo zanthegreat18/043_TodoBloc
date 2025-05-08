@@ -1,11 +1,13 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import '../bloc/todo_bloc.dart'; 
 
 class TodoPage extends StatelessWidget {
-  const TodoPage({super.key});
+  TodoPage({super.key});
+
+  final _formKey = GlobalKey<FormState>();
+  final _controller = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -42,9 +44,11 @@ class TodoPage extends StatelessWidget {
                     SizedBox(height: 8.0),
                     BlocBuilder<TodoBloc, TodoState>(
                       builder: (context, state) {
-                        if (state is TodoLoaded && state.selectedDate != null) {
+                        if (state is TodoLoaded &&
+                            state.selectedDate != null) {
                           final date = state.selectedDate!;
-                          return Text('${date.day}/${date.month}/${date.year}');
+                          return Text(
+                              '${date.day}/${date.month}/${date.year}');
                         }
                         return Text('No date selected');
                       },
