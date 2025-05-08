@@ -10,7 +10,9 @@ class TodoPage extends StatelessWidget {
     return Scaffold(
       body: SafeArea(
         child: Column(
-          children: [],
+          children: [
+            Text('Todo List'),
+          ],
         ),
       ),
     );
